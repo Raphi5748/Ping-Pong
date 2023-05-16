@@ -1,6 +1,7 @@
 import pygame
 import time
 import sys
+import math
 pygame.init()
 uhr = pygame.time.Clock()
 spiel_Aktiv = True
@@ -31,16 +32,20 @@ Balken2_rechteck = Balken2.get_rect(center = (x,y))
 Kugel = pygame.image.load('KugelPingPong.png')
 Kugel = pygame.transform.scale(Kugel, (150,150))
 x = BREITE // 1.5
-y = HOEHE + 20
+y = HOEHE -80
 Kugel_rechteck = Balken.get_rect(center = (x,y))
 
 
 
 while spiel_Aktiv:
+    # Werte müssen angepasst werden
+    ballrechteck = pygame.draw.ellipse(fenster, (255,255,0), [Kugel_rechteck.centerx - 500 ,Kugel_rechteck.centery - 500 ,120,120], 1)
+    spieler1rechteck = pygame.draw.rect(fenster, (255,255,0), [Balken_rechteck.centerx - 75, Balken_rechteck.centery - 300 , 25, 250], 1)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             spiel_aktiv = False
-            
+            pygame.quit()
+            sys.exit()
     tastatur = pygame.key.get_pressed()
     
     if tastatur[pygame.K_w] == 1:
@@ -52,20 +57,24 @@ while spiel_Aktiv:
         Balken2_rechteck.centery -= 5
     if tastatur[pygame.K_DOWN] == 1:
         Balken2_rechteck.centery += 5
-        
-    Kugel_rechteck.centerx += vx
-    if Kugel_rechteck.colliderect(Balken2_rechteck): 
+    
+    Kugel_rechteck.centerx -= vx
+    if ballrechteck.colliderect(spieler1rechteck): 
         print("Zusammenstoß Balken und Ball")
         
+    
+    
     fenster.blit(background, (0,0))
     fenster.blit(Balken,Balken_rechteck)
     fenster.blit(Balken2,Balken2_rechteck)
     fenster.blit(Kugel,Kugel_rechteck)
+    
+  
     pygame.display.update()
     uhr.tick(120)
     
-pygame.quit()
-sys.exit()
+
              
+
 
 
