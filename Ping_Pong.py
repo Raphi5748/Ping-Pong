@@ -54,8 +54,7 @@ while spiel_Aktiv:
         Balken2_rechteck.centery += 5
         
     Kugel_rechteck.centerx += vx
-    if Kugel_rechteck.colliderect(Balken2_rechteck):
-        
+    if Kugel_rechteck.colliderect(Balken2_rechteck): 
         print("Zusammenstoß Balken und Ball")
         
     fenster.blit(background, (0,0))
