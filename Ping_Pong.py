@@ -1,73 +1,55 @@
-import pygame, sys
-import random
-# Initialisierung
+import pygame
+import time
+import sys
 pygame.init()
-spiel_aktiv = True
 uhr = pygame.time.Clock()
+spiel_Aktiv = True
 
-# Fenster
-BREITE = 600
+BREITE = 1000
 HOEHE = 600
 fenster = pygame.display.set_mode((BREITE, HOEHE))
-pygame.display.set_caption('Weihnachtsspiel')
+pygame.display.set_caption('Ping_Pong')
 pygame.display.flip()
 
-# Farben
-white = (255, 255, 255)
-black = (0, 0, 0)
-red = (255, 0, 0)
-green = (0, 255, 0)
-BLAU = (0, 0, 255)
-GELB = (255, 255, 0)
-
-#bilder
-background = pygame.image.load('Christmas_Background.jpg')
+background = pygame.image.load('Tennisplatz.webp')
 background = pygame.transform.scale(background, (BREITE,HOEHE))
 
-santa = pygame.image.load('Santa-Claus.png')
-santa = pygame.transform.scale(santa, (85,96))
-x = BREITE // 2
+
+Balken = pygame.image.load('pingpongbalken.png')
+Balken = pygame.transform.scale(Balken, (1000,1000))
+x = BREITE -820
 y = HOEHE - 80
-santa_rectangle =santa.get_rect(center=(x,y))
+Balken_rechteck = Balken.get_rect(center = (x,y))
 
-gift = pygame.image.load('Geschenk_01.png')
-gift = pygame.transform.scale(gift, (50,50))
-gift_list = []
+Balken2 = pygame.image.load('pingpongbalken.png')
+Balken2 = pygame.transform.scale(Balken, (1000,1000))
+x = BREITE -55
+y = HOEHE - 80
+Balken2_rechteck = Balken2.get_rect(center = (x,y))
 
-#ereignis
-erzeuge_gift = pygame.USEREVENT
-pygame.time.set_timer(erzeuge_gift, 1000)
-
-
-# Spielschleife (game loop)
-while spiel_aktiv:
-    # Ereignisse (events) bearbeiten
+while spiel_Aktiv:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             spiel_aktiv = False
-        if event.type == erzeuge_gift:
-            new_gift = gift.get_rect(center=(random.randint(50,BREITE-50),50))
-            gift_list.append(new_gift)
             
     tastatur = pygame.key.get_pressed()
     
-    if tastatur[pygame.K_LEFT] == 1:
-        santa_rectangle.centerx -= 1
-    if tastatur[pygame.K_RIGHT] == 1:
-        santa_rectangle.centerx += 1
-    
+    if tastatur[pygame.K_w] == 1:
+        Balken_rechteck.centery -= 5
+    if tastatur[pygame.K_s] == 1:
+        Balken_rechteck.centery += 5
+        
+    if tastatur[pygame.K_UP] == 1:
+        Balken2_rechteck.centery -= 5
+    if tastatur[pygame.K_DOWN] == 1:
+        Balken2_rechteck.centery += 5 
+
     fenster.blit(background, (0,0))
-    
-    fenster.blit(santa, santa_rectangle)
-    
-    for g in gift_list:
-        fenster.blit(gift, g)
-    
+    fenster.blit(Balken,Balken_rechteck)
+    fenster.blit(Balken2,Balken2_rechteck)
     pygame.display.update()
     uhr.tick(120)
-
-# Spielende
+    
 pygame.quit()
 sys.exit()
-  
              
