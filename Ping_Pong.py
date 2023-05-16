@@ -27,6 +27,14 @@ x = BREITE -55
 y = HOEHE - 80
 Balken2_rechteck = Balken2.get_rect(center = (x,y))
 
+Kugel = pygame.image.load('KugelPingPong.png')
+Kugel = pygame.transform.scale(Kugel, (150,150))
+x = BREITE 
+y = HOEHE + 20
+Kugel_rechteck = Balken.get_rect(center = (x,y))
+
+
+
 while spiel_Aktiv:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -47,6 +55,7 @@ while spiel_Aktiv:
     fenster.blit(background, (0,0))
     fenster.blit(Balken,Balken_rechteck)
     fenster.blit(Balken2,Balken2_rechteck)
+    fenster.blit(Kugel,Kugel_rechteck)
     pygame.display.update()
     uhr.tick(120)
     
