@@ -38,9 +38,10 @@ Kugel_rechteck = Balken.get_rect(center = (x,y))
 
 
 while spiel_Aktiv:
-    # Werte müssen angepasst werden
-    ballrechteck = pygame.draw.ellipse(fenster, (255,255,0), [Kugel_rechteck.centerx - 500 ,Kugel_rechteck.centery - 500 ,120,120], 1)
-    spieler1rechteck = pygame.draw.rect(fenster, (255,255,0), [Balken_rechteck.centerx - 75, Balken_rechteck.centery - 300 , 25, 250], 1)
+   
+    ballrechteck = pygame.draw.ellipse(fenster, (255,255,0), [Kugel_rechteck.centerx - 490 ,Kugel_rechteck.centery - 493 ,110,110], 1)
+    spieler1rechteck = pygame.draw.rect(fenster, (255,255,0), [Balken_rechteck.centerx - 75, Balken_rechteck.centery - 305 , 25, 260], 1)
+    spieler2rechteck = pygame.draw.rect(fenster, (255,255,0), [Balken2_rechteck.centerx - 75, Balken2_rechteck.centery - 305 , 25, 260], 1)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             spiel_aktiv = False
@@ -58,12 +59,15 @@ while spiel_Aktiv:
     if tastatur[pygame.K_DOWN] == 1:
         Balken2_rechteck.centery += 5
     
-    Kugel_rechteck.centerx -= vx
-    if ballrechteck.colliderect(spieler1rechteck): 
+    Kugel_rechteck.centerx += vx
+    if ballrechteck.colliderect(spieler2rechteck): 
         print("Zusammenstoß Balken und Ball")
-        
-    
-    
+        vx = vx * -1
+        Kugel_rechteck.centerx -= 5
+    if ballrechteck.colliderect(spieler1rechteck):
+        print("Zusammenstoß Balken 2 und Ball")
+        vx = vx * -1
+        Kugel_rechteck.centerx += 5 
     fenster.blit(background, (0,0))
     fenster.blit(Balken,Balken_rechteck)
     fenster.blit(Balken2,Balken2_rechteck)
@@ -73,8 +77,6 @@ while spiel_Aktiv:
     pygame.display.update()
     uhr.tick(120)
     
-
-             
 
 
 
