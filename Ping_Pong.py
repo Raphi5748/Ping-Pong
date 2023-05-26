@@ -5,7 +5,7 @@ import math
 pygame.init()
 uhr = pygame.time.Clock()
 spiel_Aktiv = True
-vx = 2 
+vx = 20
 
 BREITE = 1000
 HOEHE = 600
@@ -20,13 +20,13 @@ background = pygame.transform.scale(background, (BREITE,HOEHE))
 Balken = pygame.image.load('pingpongbalken.png')
 Balken = pygame.transform.scale(Balken, (1000,1000))
 x = BREITE -820
-y = HOEHE - 80
+y = HOEHE / 3 * 2
 Balken_rechteck = Balken.get_rect(center = (x,y))
 
 Balken2 = pygame.image.load('pingpongbalken.png')
 Balken2 = pygame.transform.scale(Balken, (1000,1000))
 x = BREITE -55
-y = HOEHE - 80
+y = HOEHE / 3 * 2
 Balken2_rechteck = Balken2.get_rect(center = (x,y))
 
 Kugel = pygame.image.load('KugelPingPong.png')
@@ -62,12 +62,16 @@ while spiel_Aktiv:
     Kugel_rechteck.centerx += vx
     if ballrechteck.colliderect(spieler2rechteck): 
         print("Zusammenstoß Balken und Ball")
+        betrag = ballrechteck.right - spieler2rechteck.left
+        print(betrag)
         vx = vx * -1
-        Kugel_rechteck.centerx -= 5
+        Kugel_rechteck.centerx -= betrag + 10
     if ballrechteck.colliderect(spieler1rechteck):
         print("Zusammenstoß Balken 2 und Ball")
+        betrag = spieler1rechteck.right - ballrechteck.left 
+        print(betrag)
         vx = vx * -1
-        Kugel_rechteck.centerx += 5 
+        Kugel_rechteck.centerx += betrag + 10
     fenster.blit(background, (0,0))
     fenster.blit(Balken,Balken_rechteck)
     fenster.blit(Balken2,Balken2_rechteck)
