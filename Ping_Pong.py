@@ -2,10 +2,12 @@ import pygame
 import time
 import sys
 import math
+import random
 pygame.init()
 uhr = pygame.time.Clock()
 spiel_Aktiv = True
-vx = 5
+vx = 2
+vy = 2
 
 BREITE = 1000
 HOEHE = 600
@@ -18,19 +20,19 @@ background = pygame.transform.scale(background, (BREITE,HOEHE))
 
 
 Balken = pygame.image.load('neuerbalken.png')
-Balken = pygame.transform.scale(Balken, (25,300))
+Balken = pygame.transform.scale(Balken, (25,200))
 x = BREITE / 5
 y = HOEHE / 2
 Balken_rechteck = Balken.get_rect(center = (x,y))
 
 Balken2 = pygame.image.load('neuerbalken.png')
-Balken2 = pygame.transform.scale(Balken, (25,300))
+Balken2 = pygame.transform.scale(Balken, (25,200))
 x = BREITE / 5 * 4
 y = HOEHE / 2
 Balken2_rechteck = Balken2.get_rect(center = (x,y))
 
 Kugel = pygame.image.load('KugelPingPong.png')
-Kugel = pygame.transform.scale(Kugel, (150,150))
+Kugel = pygame.transform.scale(Kugel, (100,100))
 x = BREITE / 2
 y = HOEHE / 2
 Kugel_rechteck = Kugel.get_rect(center = (x,y))
@@ -60,18 +62,31 @@ while spiel_Aktiv:
         Balken2_rechteck.centery += 5
     
     Kugel_rechteck.centerx += vx
+    Kugel_rechteck.centery += vy 
     if Kugel_rechteck.colliderect(Balken_rechteck):
-        print("Zusammenstoß Balken 2 und Ball")     
+        print("Zusammenstoß Balken 2 und Ball")
+        vy = random.randint(-5,5)
+        vx -= 1
         vx = vx * -1
-        betrag =  Balken_rechteck.right - Kugel_rechteck.left +1
+        print(vx)
+        betrag =  Balken_rechteck.right - Kugel_rechteck.left 
         print(betrag)
         Kugel_rechteck.centerx = Kugel_rechteck.centerx + betrag
 
     if Kugel_rechteck.colliderect(Balken2_rechteck): 
         print("Zusammenstoß Balken und Ball")
+        vy = random.randint(-5,5)
+        vx += 1
         vx = vx * -1
-        betrag = Kugel_rechteck.right - Balken2_rechteck.left +1
+        print(vx)
+        betrag = Kugel_rechteck.right - Balken2_rechteck.left 
         Kugel_rechteck.centerx = Kugel_rechteck.centerx - betrag
+        
+    if Kugel_rechteck.top < 0:
+        vy = vy * -1
+    
+    if Kugel_rechteck.bottom > 600 :
+        vy = vy * -1
 
     fenster.blit(background, (0,0))
     fenster.blit(Balken,Balken_rechteck)
