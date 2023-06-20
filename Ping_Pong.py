@@ -9,6 +9,9 @@ spiel_Aktiv = True
 vx = 2
 vy = 2
 
+punktzahls1 = 0
+punktzahls2 = 0
+
 BREITE = 1000
 HOEHE = 600
 fenster = pygame.display.set_mode((BREITE, HOEHE))
@@ -21,13 +24,13 @@ background = pygame.transform.scale(background, (BREITE,HOEHE))
 
 Balken = pygame.image.load('neuerbalken.png')
 Balken = pygame.transform.scale(Balken, (25,200))
-x = BREITE / 5
+x = BREITE / 6
 y = HOEHE / 2
 Balken_rechteck = Balken.get_rect(center = (x,y))
 
 Balken2 = pygame.image.load('neuerbalken.png')
 Balken2 = pygame.transform.scale(Balken, (25,200))
-x = BREITE / 5 * 4
+x = BREITE / 6 * 5
 y = HOEHE / 2
 Balken2_rechteck = Balken2.get_rect(center = (x,y))
 
@@ -65,29 +68,43 @@ while spiel_Aktiv:
     Kugel_rechteck.centery += vy 
     if Kugel_rechteck.colliderect(Balken_rechteck):
         print("Zusammenstoß Balken 2 und Ball")
-        vy = random.randint(-5,5)
-        vx -= 1
+        vy = random.randint(-3,3)
+        vx -= 0.25
         vx = vx * -1
         print(vx)
         betrag =  Balken_rechteck.right - Kugel_rechteck.left 
         print(betrag)
-        Kugel_rechteck.centerx = Kugel_rechteck.centerx + betrag
+        if betrag < 13:
+            Kugel_rechteck.centerx = Kugel_rechteck.centerx + betrag
+        if betrag > 13:
+            Kugel_rechteck.centerx = Kugel_rechteck.centerx - 13
 
     if Kugel_rechteck.colliderect(Balken2_rechteck): 
         print("Zusammenstoß Balken und Ball")
-        vy = random.randint(-5,5)
-        vx += 1
+        vy = random.randint(-3,3)
+        vx += 0.25
         vx = vx * -1
         print(vx)
-        betrag = Kugel_rechteck.right - Balken2_rechteck.left 
-        Kugel_rechteck.centerx = Kugel_rechteck.centerx - betrag
-        
+        betrag = Kugel_rechteck.right - Balken2_rechteck.left
+        print(betrag)
+        if betrag < 13:
+            Kugel_rechteck.centerx = Kugel_rechteck.centerx - betrag
+        if betrag > 13:
+            Kugel_rechteck.centerx = Kugel_rechteck.centerx + 13
     if Kugel_rechteck.top < 0:
         vy = vy * -1
     
     if Kugel_rechteck.bottom > 600 :
         vy = vy * -1
-
+    
+    if Kugel_rechteck.left > 1000 :
+        punktzahls1 += 1
+        print("Spieler1: " + str(punktzahls1))
+        break
+    if Kugel_rechteck.right < 0 :
+        punktzahls2 += 1
+        print("Spieler2: " + str(punktzahls2))
+        break
     fenster.blit(background, (0,0))
     fenster.blit(Balken,Balken_rechteck)
     fenster.blit(Balken2,Balken2_rechteck)
@@ -97,6 +114,4 @@ while spiel_Aktiv:
     pygame.display.update()
     uhr.tick(120)
     
-
-
 
