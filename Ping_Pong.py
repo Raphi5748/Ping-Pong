@@ -63,7 +63,24 @@ while spiel_Aktiv:
         Balken2_rechteck.centery -= 5
     if tastatur[pygame.K_DOWN] == 1:
         Balken2_rechteck.centery += 5
-    
+       
+    if tastatur[pygame.K_ESCAPE] == 1:
+        Pause = True 
+        
+    while Pause == True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                spiel_aktiv = False
+                pygame.quit()
+                sys.exit()
+            print("Pause")
+            tastatur = pygame.key.get_pressed()
+            if tastatur[pygame.K_SPACE] == 1:
+                print("Enter")
+                Pause = False
+            print("Pause1")
+            uhr.tick(120)
+            pygame.display.update()
     Kugel_rechteck.centerx += vx
     Kugel_rechteck.centery += vy 
     if Kugel_rechteck.colliderect(Balken_rechteck):
