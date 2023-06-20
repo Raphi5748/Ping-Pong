@@ -5,6 +5,7 @@ import math
 import random
 pygame.init()
 uhr = pygame.time.Clock()
+Pause = False 
 spiel_Aktiv = True
 vx = 2
 vy = 2
