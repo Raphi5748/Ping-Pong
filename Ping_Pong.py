@@ -5,7 +5,7 @@ import math
 import random
 pygame.init()
 uhr = pygame.time.Clock()
-Pause = False 
+Pause = True
 spiel_Aktiv = True
 vx = 2
 vy = 2
@@ -41,8 +41,23 @@ x = BREITE / 2
 y = HOEHE / 2
 Kugel_rechteck = Kugel.get_rect(center = (x,y))
 
+PauseBild = pygame.image.load('Pausezeichen.png')
+PauseBild = pygame.transform.scale(PauseBild, (400,100))
+x = BREITE / 2
+y = HOEHE / 5
+Pause_rechteck = PauseBild.get_rect(center = (x,y))
 
+Steuerung = pygame.image.load('steuerung.png')
+Steuerung = pygame.transform.scale(Steuerung, (500, 250))
+x = BREITE / 4
+y = HOEHE / 2
+Steuerung_rechteck = Steuerung.get_rect(center = (x,y))
 
+fenster.blit(background, (0,0))
+fenster.blit(Balken,Balken_rechteck)
+fenster.blit(Balken2,Balken2_rechteck)
+fenster.blit(Kugel,Kugel_rechteck)
+    
 while spiel_Aktiv:
    
     #ballrechteck = pygame.draw.ellipse(fenster, (255,255,0), [Kugel_rechteck.centerx - 490 ,Kugel_rechteck.centery - 493 ,110,110], 1)
@@ -75,6 +90,8 @@ while spiel_Aktiv:
                 pygame.quit()
                 sys.exit()
             print("Pause")
+            fenster.blit(PauseBild, Pause_rechteck)
+            fenster.blit(Steuerung, Steuerung_rechteck)
             tastatur = pygame.key.get_pressed()
             if tastatur[pygame.K_SPACE] == 1:
                 print("Enter")
@@ -131,5 +148,9 @@ while spiel_Aktiv:
   
     pygame.display.update()
     uhr.tick(120)
+    
+
+
+
     
 
