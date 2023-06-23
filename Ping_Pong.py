@@ -6,6 +6,9 @@ import random
 pygame.init()
 uhr = pygame.time.Clock()
 Pause = True
+pygame.mixer.music.load('514154__edwardszakal__game-music.mp3')
+pygame.mixer.music.set_volume(0.2)
+pygame.mixer.music.play(-1)
 spiel_Aktiv = True
 vx = 2
 vy = 2
@@ -87,7 +90,10 @@ while spiel_Aktiv:
         Balken2_rechteck.centery += 5
        
     if tastatur[pygame.K_ESCAPE] == 1:
-        Pause = True 
+        Pause = True
+        pygame.mixer.music.load('514154__edwardszakal__game-music.mp3')
+        pygame.mixer.music.set_volume(0.2)
+        pygame.mixer.music.play(-1)
         
     while Pause == True:
         for event in pygame.event.get():
@@ -101,6 +107,7 @@ while spiel_Aktiv:
             tastatur = pygame.key.get_pressed()
             if tastatur[pygame.K_SPACE] == 1:
                 print("Enter")
+                pygame.mixer.music.stop()
                 Pause = False
             print("Pause1")
             uhr.tick(120)
@@ -110,9 +117,12 @@ while spiel_Aktiv:
     if Kugel_rechteck.colliderect(Balken_rechteck):
         print("Zusammenstoß Balken 2 und Ball")
         vy = random.randint(-3,3)
-        vx -= 0.25
+        vx -= 0.1
         vx = vx * -1
         print(vx)
+        pygame.mixer.music.load('257232__javierzumer__retro-shot-blaster.wav')
+        pygame.mixer.music.set_volume(0.2)
+        pygame.mixer.music.play(1)
         betrag =  Balken_rechteck.right - Kugel_rechteck.left 
         print(betrag)
         if betrag < 13:
@@ -123,9 +133,12 @@ while spiel_Aktiv:
     if Kugel_rechteck.colliderect(Balken2_rechteck): 
         print("Zusammenstoß Balken und Ball")
         vy = random.randint(-3,3)
-        vx += 0.25
+        vx += 0.1
         vx = vx * -1
         print(vx)
+        pygame.mixer.music.load('257232__javierzumer__retro-shot-blaster.wav')
+        pygame.mixer.music.set_volume(0.2)
+        pygame.mixer.music.play(1)
         betrag = Kugel_rechteck.right - Balken2_rechteck.left
         print(betrag)
         if betrag < 13:
@@ -163,13 +176,3 @@ while spiel_Aktiv:
     fenster.blit(Punktestand2, (Balken2_rechteck.centerx, HOEHE / 8))
     pygame.display.update()
     uhr.tick(120)
-    
-
-
-
-    
-
-
-
-    
-
