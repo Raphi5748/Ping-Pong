@@ -9,10 +9,11 @@ Pause = True
 spiel_Aktiv = True
 vx = 2
 vy = 2
-
+pygame.font.init()
+Punktestand_Font = pygame.font.SysFont('Comic Sans MS', 30)
 punktzahls1 = 0
 punktzahls2 = 0
-
+plusminus = [-1,1]
 BREITE = 1000
 HOEHE = 600
 fenster = pygame.display.set_mode((BREITE, HOEHE))
@@ -53,6 +54,8 @@ x = BREITE / 4
 y = HOEHE / 2
 Steuerung_rechteck = Steuerung.get_rect(center = (x,y))
 
+Punktestand1 = Punktestand_Font.render(str(punktzahls1), False, (0, 0, 0))
+
 fenster.blit(background, (0,0))
 fenster.blit(Balken,Balken_rechteck)
 fenster.blit(Balken2,Balken2_rechteck)
@@ -69,6 +72,9 @@ while spiel_Aktiv:
             pygame.quit()
             sys.exit()
     tastatur = pygame.key.get_pressed()
+    
+    Punktestand1 = Punktestand_Font.render(str(punktzahls1), False, (0, 0, 0))
+    Punktestand2 = Punktestand_Font.render(str(punktzahls2), False, (0, 0, 0))
     
     if tastatur[pygame.K_w] == 1:
         Balken_rechteck.centery -= 5
@@ -133,21 +139,34 @@ while spiel_Aktiv:
         vy = vy * -1
     
     if Kugel_rechteck.left > 1000 :
+        vx = 2
+        Kugel_rechteck.centerx = BREITE / 2
+        Kugel_rechteck.centery = HOEHE / 2
+        
+        vx = vx * random.choice(plusminus)
         punktzahls1 += 1
         print("Spieler1: " + str(punktzahls1))
-        break
+        
     if Kugel_rechteck.right < 0 :
+        vx = 2
+        Kugel_rechteck.centerx = BREITE / 2
+        Kugel_rechteck.centery = HOEHE / 2
+        vx = vx * random.choice(plusminus)
         punktzahls2 += 1
         print("Spieler2: " + str(punktzahls2))
-        break
+        
     fenster.blit(background, (0,0))
     fenster.blit(Balken,Balken_rechteck)
     fenster.blit(Balken2,Balken2_rechteck)
     fenster.blit(Kugel,Kugel_rechteck)
-    
-  
+    fenster.blit(Punktestand1, (Balken_rechteck.centerx, HOEHE / 8))
+    fenster.blit(Punktestand2, (Balken2_rechteck.centerx, HOEHE / 8))
     pygame.display.update()
     uhr.tick(120)
+    
+
+
+
     
 
 
