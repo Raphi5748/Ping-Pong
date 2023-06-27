@@ -6,10 +6,15 @@ import random
 pygame.init()
 uhr = pygame.time.Clock()
 Pause = True
+vzähler = 1
 pygame.mixer.music.load('514154__edwardszakal__game-music.mp3')
 pygame.mixer.music.set_volume(0.2)
 pygame.mixer.music.play(-1)
 spiel_Aktiv = True
+EinzelSpieler = False
+
+AktuellerSpielModus = "Zweispieler"
+
 vx = 2
 vy = 2
 pygame.font.init()
@@ -63,9 +68,18 @@ fenster.blit(background, (0,0))
 fenster.blit(Balken,Balken_rechteck)
 fenster.blit(Balken2,Balken2_rechteck)
 fenster.blit(Kugel,Kugel_rechteck)
-    
+
 while spiel_Aktiv:
-   
+    vzähler += 1
+    print("VZÄHLER" + str(vzähler))
+    if vzähler == 120:
+        
+        if vx > 0 :
+            vx += 0.5
+            vzähler = 1
+        if vx < 0 :
+            vx -= 0.5
+            vzähler = 1
     #ballrechteck = pygame.draw.ellipse(fenster, (255,255,0), [Kugel_rechteck.centerx - 490 ,Kugel_rechteck.centery - 493 ,110,110], 1)
     # = pygame.draw.rect(fenster, (255,255,0), [Balken_rechteck.centerx - 75, Balken_rechteck.centery - 305 , 25, 260], 1)
     #spieler2rechteck = pygame.draw.rect(fenster, (255,255,0), [Balken2_rechteck.centerx - 75, Balken2_rechteck.centery - 305 , 25, 260], 1)
@@ -78,16 +92,19 @@ while spiel_Aktiv:
     
     Punktestand1 = Punktestand_Font.render(str(punktzahls1), False, (0, 0, 0))
     Punktestand2 = Punktestand_Font.render(str(punktzahls2), False, (0, 0, 0))
-    
+    SpielModusText = Punktestand_Font.render(str(AktuellerSpielModus), False, (0, 0, 0))
     if tastatur[pygame.K_w] == 1:
         Balken_rechteck.centery -= 5
     if tastatur[pygame.K_s] == 1:
         Balken_rechteck.centery += 5
         
-    if tastatur[pygame.K_UP] == 1:
-        Balken2_rechteck.centery -= 5
-    if tastatur[pygame.K_DOWN] == 1:
-        Balken2_rechteck.centery += 5
+    if EinzelSpieler == False:
+        if tastatur[pygame.K_UP] == 1:
+            Balken2_rechteck.centery -= 5
+        if tastatur[pygame.K_DOWN] == 1:
+            Balken2_rechteck.centery += 5
+    if EinzelSpieler == True:
+        Balken2_rechteck.centery = Kugel_rechteck.centery
        
     if tastatur[pygame.K_ESCAPE] == 1:
         Pause = True
@@ -102,13 +119,38 @@ while spiel_Aktiv:
                 pygame.quit()
                 sys.exit()
             print("Pause")
+            
             fenster.blit(PauseBild, Pause_rechteck)
             fenster.blit(Steuerung, Steuerung_rechteck)
+            fenster.blit(SpielModusText, (BREITE / 6 * 4, HOEHE / 2))
+
             tastatur = pygame.key.get_pressed()
             if tastatur[pygame.K_SPACE] == 1:
                 print("Enter")
                 pygame.mixer.music.stop()
                 Pause = False
+            if tastatur[pygame.K_RIGHT] == 1:
+                EinzelSpieler = True
+                AktuellerSpielModus = "Einzelspieler"
+                SpielModusText = Punktestand_Font.render(str(AktuellerSpielModus), False, (0, 0, 0))
+                fenster.blit(background, (0,0))
+                fenster.blit(Balken,Balken_rechteck)
+                fenster.blit(Balken2,Balken2_rechteck)
+                fenster.blit(Kugel,Kugel_rechteck)
+                fenster.blit(Punktestand1, (Balken_rechteck.centerx, HOEHE / 8))
+                fenster.blit(SpielModusText, (BREITE / 6 * 4, HOEHE / 2))
+            if tastatur[pygame.K_LEFT] == 1:
+                EinzelSpieler = False
+                AktuellerSpielModus = "Zweispieler"
+                SpielModusText = Punktestand_Font.render(str(AktuellerSpielModus), False, (0, 0, 0))
+                
+                fenster.blit(background, (0,0))
+                fenster.blit(Balken,Balken_rechteck)
+                fenster.blit(Balken2,Balken2_rechteck)
+                fenster.blit(Kugel,Kugel_rechteck)
+                fenster.blit(Punktestand1, (Balken_rechteck.centerx, HOEHE / 8))
+                fenster.blit(SpielModusText, (BREITE / 6 * 4, HOEHE / 2))
+                
             print("Pause1")
             uhr.tick(120)
             pygame.display.update()
@@ -117,8 +159,9 @@ while spiel_Aktiv:
     if Kugel_rechteck.colliderect(Balken_rechteck):
         print("Zusammenstoß Balken 2 und Ball")
         vy = random.randint(-3,3)
-        vx -= 0.1
         vx = vx * -1
+        
+        print("VX")
         print(vx)
         pygame.mixer.music.load('257232__javierzumer__retro-shot-blaster.wav')
         pygame.mixer.music.set_volume(0.2)
@@ -133,8 +176,9 @@ while spiel_Aktiv:
     if Kugel_rechteck.colliderect(Balken2_rechteck): 
         print("Zusammenstoß Balken und Ball")
         vy = random.randint(-3,3)
-        vx += 0.1
+        
         vx = vx * -1
+        print("VX")
         print(vx)
         pygame.mixer.music.load('257232__javierzumer__retro-shot-blaster.wav')
         pygame.mixer.music.set_volume(0.2)
@@ -176,3 +220,4 @@ while spiel_Aktiv:
     fenster.blit(Punktestand2, (Balken2_rechteck.centerx, HOEHE / 8))
     pygame.display.update()
     uhr.tick(120)
+    
