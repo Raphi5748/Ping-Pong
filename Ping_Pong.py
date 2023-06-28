@@ -14,6 +14,8 @@ AktuellerSpielModus = "Zweispieler"
 vx = 2
 vy = 2
 pygame.font.init()
+
+
 Punktestand_Font = pygame.font.SysFont('Comic Sans MS', 30)
 punktzahls1 = 0
 punktzahls2 = 0
@@ -33,7 +35,11 @@ fenster = pygame.display.set_mode((BREITE, HOEHE))
 pygame.display.set_caption('Ping_Pong')
 pygame.display.flip()
 
-background = pygame.image.load('Tennisplatz.webp')
+Bild1 = "Tennisplatz.webp"
+Bild2 = "Weltraum.png"
+Bild3 = "greyscreen.png"
+AktivesBild = Bild1
+background = pygame.image.load(AktivesBild)
 background = pygame.transform.scale(background, (BREITE,HOEHE))
 
 Balken = pygame.image.load('neuerbalken.png')
@@ -161,7 +167,36 @@ while spiel_Aktiv:
                 fenster.blit(Kugel,Kugel_rechteck)
                 fenster.blit(Punktestand1, (Balken_rechteck.centerx, HOEHE / 8))
                 fenster.blit(SpielModusText, (BREITE / 6 * 4, HOEHE / 2))
-                
+            if tastatur[pygame.K_1] == 1:
+                AktivesBild = Bild1
+                background = pygame.image.load(AktivesBild)
+                background = pygame.transform.scale(background, (BREITE,HOEHE))
+                fenster.blit(background, (0,0))
+                fenster.blit(Balken,Balken_rechteck)
+                fenster.blit(Balken2,Balken2_rechteck)
+                fenster.blit(Kugel,Kugel_rechteck)
+                fenster.blit(Punktestand1, (Balken_rechteck.centerx, HOEHE / 8))
+                fenster.blit(SpielModusText, (BREITE / 6 * 4, HOEHE / 2))
+            if tastatur[pygame.K_2] == 1:
+                AktivesBild = Bild2
+                background = pygame.image.load(AktivesBild)
+                background = pygame.transform.scale(background, (BREITE,HOEHE))
+                fenster.blit(background, (0,0))
+                fenster.blit(Balken,Balken_rechteck)
+                fenster.blit(Balken2,Balken2_rechteck)
+                fenster.blit(Kugel,Kugel_rechteck)
+                fenster.blit(Punktestand1, (Balken_rechteck.centerx, HOEHE / 8))
+                fenster.blit(SpielModusText, (BREITE / 6 * 4, HOEHE / 2))
+            if tastatur[pygame.K_3] == 1:
+                AktivesBild = Bild3
+                background = pygame.image.load(AktivesBild)
+                background = pygame.transform.scale(background, (BREITE,HOEHE))
+                fenster.blit(background, (0,0))
+                fenster.blit(Balken,Balken_rechteck)
+                fenster.blit(Balken2,Balken2_rechteck)
+                fenster.blit(Kugel,Kugel_rechteck)
+                fenster.blit(Punktestand1, (Balken_rechteck.centerx, HOEHE / 8))
+                fenster.blit(SpielModusText, (BREITE / 6 * 4, HOEHE / 2)) 
             uhr.tick(120)
             pygame.display.update()
     # X und Y bewegung 
