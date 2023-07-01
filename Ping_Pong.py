@@ -25,7 +25,7 @@ plusminus = [-1,1]
 #Musik
 
 pygame.mixer.music.load('514154__edwardszakal__game-music.mp3')
-pygame.mixer.music.set_volume(0.0)
+pygame.mixer.music.set_volume(0.2)
 pygame.mixer.music.play(-1)
 
 #Spielfeld,Bilder und Steuerungselemente
